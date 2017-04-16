@@ -43,8 +43,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println(string(data))
 	_, _err := toml.Decode(string(data), &config)
 
 	if _err != nil {
@@ -57,7 +55,7 @@ func main() {
 
 	commit := Commit{
 		Message: config.Message,
-		Committer: {
+		Committer: Committer{
 			Name:  config.Username,
 			Email: config.Email,
 		},
@@ -67,10 +65,14 @@ func main() {
 
 	client := http.Client{}
 
-	body := new(bytes.Buffer)
-	json.NewEncoder(body).Encode(commit)
+	b, err := json.Marshal(commit)
 
-	req, err := http.NewRequest("PUT", url, body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(b))
+	req.Header.Add("Accept", "application/json")
 
 	if err != nil {
 		log.Fatal(err)
@@ -81,6 +83,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	defer resp.Body.Close()
 
 	fmt.Println(resp)
 }
