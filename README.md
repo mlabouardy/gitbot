@@ -1,2 +1,2 @@
 # gitbot
-Dummy git bot written in golang
+Dummy git bot
