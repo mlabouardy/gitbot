@@ -1,0 +1,6 @@
+[Unit]
+Description=Commit to github
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sh /tmp/gitbot.sh 2>&1 /tmp/gitbot.log
