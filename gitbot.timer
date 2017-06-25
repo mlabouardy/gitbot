@@ -1,0 +1,8 @@
+[Unit]
+Description=Run service every 10 minutes
+
+[Timer]
+OnCalendar=*-*-* 8,12,16,18,22,23:00:00
+
+[Install]
+WantedBy=basic.target
